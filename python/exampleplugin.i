@@ -23,7 +23,6 @@ namespace std {
 #include "OpenMMDrude.h"
 #include "openmm/RPMDIntegrator.h"
 #include "openmm/RPMDMonteCarloBarostat.h"
-#include "openmm/Vec3.h"
 %}
 
 %pythoncode %{
@@ -102,22 +101,13 @@ class MyRMSDForce : public OpenMM::Force {
 public:
 
     MyRMSDForce(const std::vector<OpenMM::Vec3> &referencePositions, const std::vector<int> &particles=std::vector<int>());
-    
     virtual bool usesPeriodicBoundaryConditions() const;
-    
-    void setParticles(const std::vector<int> &particles);
-    
+    void setParticles(const std::vector<int> &particles);    
     void setReferencePositions(const std::vector<OpenMM::Vec3> &positions);
     %apply OpenMM::Context & OUTPUT {OpenMM::Context & context };    
     void updateParametersInContext(OpenMM::Context& context);
     %clear Context & context;
-    /*
-     * The reference parameters to this function are output values.
-     * Marking them as such will cause swig to return a tuple.
-    */
-
     const std::vector<int>& getParticles() const;
-
     const std::vector<OpenMM::Vec3>& getReferencePositions() const;
 
 };
