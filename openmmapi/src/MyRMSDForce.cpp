@@ -37,11 +37,11 @@ using namespace ExamplePlugin;
 using namespace OpenMM;
 using namespace std;
 
-MyRMSDForce::MyRMSDForce(const vector<Vec3>& referencePositions, const vector<int>& particles) :
+MyRMSDForce::MyRMSDForce(const vector<OpenMM::Vec3>& referencePositions, const vector<int>& particles) :
         referencePositions(referencePositions), particles(particles) {
 }
 
-void MyRMSDForce::setReferencePositions(const std::vector<Vec3>& positions) {
+void MyRMSDForce::setReferencePositions(const std::vector<OpenMM::Vec3>& positions) {
     referencePositions = positions;
 }
 

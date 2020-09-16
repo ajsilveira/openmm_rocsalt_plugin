@@ -117,8 +117,8 @@ void ReferenceCalcMyRMSDForceKernel::initialize(const System& system, const MyRM
 }
 
 double ReferenceCalcMyRMSDForceKernel::execute(ContextImpl& context, bool includeForces, bool includeEnergy) {
-    vector<Vec3>& posData = extractPositions(context);
-    vector<Vec3>& forceData = extractForces(context);
+    vector<OpenMM::Vec3>& posData = extractPositions(context);
+    vector<OpenMM::Vec3>& forceData = extractForces(context);
     ReferenceMyRMSDForce rmsd(referencePos, particles);
     return rmsd.calculateIxn(posData, forceData);
 }

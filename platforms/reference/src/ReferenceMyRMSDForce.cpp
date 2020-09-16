@@ -30,14 +30,14 @@ using namespace std;
 using namespace ExamplePlugin;
 
 
-ReferenceMyRMSDForce::ReferenceMyRMSDForce(vector<Vec3>& referencePos, vector<int>& particles) :
+ReferenceMyRMSDForce::ReferenceMyRMSDForce(vector<OpenMM::Vec3>& referencePos, vector<int>& particles) :
         referencePos(referencePos), particles(particles) {
 }
 
 ReferenceMyRMSDForce::~ReferenceMyRMSDForce() {
 }
 
-double ReferenceMyRMSDForce::calculateIxn(vector<Vec3>& atomCoordinates, vector<Vec3>& forces) const {
+double ReferenceMyRMSDForce::calculateIxn(vector<OpenMM::Vec3>& atomCoordinates, vector<OpenMM::Vec3>& forces) const {
     // Compute the RMSD and its gradient using the algorithm described in Coutsias et al,
     // "Using quaternions to calculate RMSD" (doi: 10.1002/jcc.20110).  First subtract
     // the centroid from the atom positions.  The reference positions have already been centered.
@@ -47,7 +47,7 @@ double ReferenceMyRMSDForce::calculateIxn(vector<Vec3>& atomCoordinates, vector<
     for (int i : particles)
         center += atomCoordinates[i];
     center /= numParticles;
-    vector<Vec3> positions(numParticles);
+    vector<OpenMM::Vec3> positions(numParticles);
     for (int i = 0; i < numParticles; i++)
         positions[i] = atomCoordinates[particles[i]]-center;
     

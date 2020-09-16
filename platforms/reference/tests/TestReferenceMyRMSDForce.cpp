@@ -49,7 +49,7 @@ using namespace OpenMM;
 using namespace std;
 
 extern "C" OPENMM_EXPORT void registerExampleReferenceKernelFactories();
-double estimateRMSD(vector<Vec3>& positions, vector<Vec3>& referencePos, vector<int>& particles) {
+double estimateRMSD(vector<OpenMM::Vec3>& positions, vector<OpenMM::Vec3>& referencePos, vector<int>& particles) {
     // Estimate the RMSD.  For simplicity we omit the orientation alignment, but they should
     // already be almost perfectly aligned.
     

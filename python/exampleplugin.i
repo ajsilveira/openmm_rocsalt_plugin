@@ -1,5 +1,5 @@
 %module exampleplugin
-
+%include "typemaps.i"
 %import(module="simtk.openmm") "swig/OpenMMSwigHeaders.i"
 %include "swig/typemaps.i"
 
