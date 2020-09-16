@@ -16,12 +16,14 @@ namespace std {
 };
 
 %{
+#include "MyRMSDForce.h"
 #include "ExampleForce.h"
 #include "OpenMM.h"
 #include "OpenMMAmoeba.h"
 #include "OpenMMDrude.h"
 #include "openmm/RPMDIntegrator.h"
 #include "openmm/RPMDMonteCarloBarostat.h"
+#include "openmm/Vec3.h"
 %}
 
 %pythoncode %{
@@ -38,6 +40,10 @@ import simtk.unit as unit
     val[3] = unit.Quantity(val[3], unit.kilojoule_per_mole/unit.nanometer**4)
 %}
 
+%pythonappend ExamplePlugin::MyRMSDForce::getReferencePositions() const %{
+    val = unit.Quantity(val, unit.nanometer)
+%}
+
 /*
  * Convert C++ exceptions to Python exceptions.
 */
@@ -49,7 +55,6 @@ import simtk.unit as unit
         return NULL;
     }
 }
-
 
 namespace ExamplePlugin {
 
@@ -91,6 +96,30 @@ public:
             return (dynamic_cast<ExamplePlugin::ExampleForce*>(&force) != NULL);
         }
     }
+};
+
+class MyRMSDForce : public OpenMM::Force {
+public:
+
+    MyRMSDForce(const std::vector<OpenMM::Vec3> &referencePositions, const std::vector<int> &particles=std::vector<int>());
+    
+    virtual bool usesPeriodicBoundaryConditions() const;
+    
+    void setParticles(const std::vector<int> &particles);
+    
+    void setReferencePositions(const std::vector<OpenMM::Vec3> &positions);
+    %apply OpenMM::Context & OUTPUT {OpenMM::Context & context };    
+    void updateParametersInContext(OpenMM::Context& context);
+    %clear Context & context;
+    /*
+     * The reference parameters to this function are output values.
+     * Marking them as such will cause swig to return a tuple.
+    */
+
+    const std::vector<int>& getParticles() const;
+
+    const std::vector<OpenMM::Vec3>& getReferencePositions() const;
+
 };
 
 }

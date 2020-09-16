@@ -23,7 +23,7 @@
 
 #include "openmm/Vec3.h"
 #include "ReferenceMyRMSDForce.h"
-#include "jama/jama_eig.h"
+#include "jama_eig.h"
 
 using namespace OpenMM;
 using namespace std;
